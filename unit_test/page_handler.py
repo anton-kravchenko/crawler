@@ -19,17 +19,19 @@ class PageHandler(AbstractPageHandler):
         specialisation_items = self.specialisations_handler.get_specialisations()
         for specialisation in specialisation_items:
             param = urllib.urlencode({self.search_key: specialisation})
-            url = (self.root_url+'?%s' % param)
+            url = (self.search_url+'?%s' % param)
 
             if self.use_key_as_param is False:
                 param = urllib.pathname2url(specialisation)
-                url = (self.root_url+'%s' % param)
+                url = (self.search_url+'%s' % param)
 
             print 'Retrieving ', url
             raw_page = urllib.urlopen(url)
             document = PyQuery(raw_page.read())
-            document(self.root_el).each(lambda i, item: self.store_position(specialisation, PyQuery(item)
-                                                                            .find(self.child_el).text()))
+            document(self.root_el).each(
+                lambda i, item: self.store_position(specialisation, PyQuery(item).find(self.child_el).text(),
+                                                    PyQuery(item).find(self.child_el).find(self.link_el).attr('href')
+                                                    ))
 
             specialisation_id = self.cursor.execute('SELECT id FROM Specialisation WHERE name=? ',
                                                     (specialisation,)).fetchone()[0]
@@ -45,9 +47,12 @@ class PageHandler(AbstractPageHandler):
 
         print 'RESULTS FROM', self.label, ':', self.cursor.fetchone()[0], 'items retrieved\n'
 
-    def store_position(self, specialisation, position):
+    def store_position(self, specialisation, position, link):
+        if self.add_root_url_to_link is True and link is not None:
+            link = self.root_url + link
+
         specialisation_id = self.cursor.execute('SELECT id FROM Specialisation WHERE name=?',
                                                 (specialisation,)).fetchone()[0]
 
-        self.cursor.execute('INSERT OR IGNORE INTO Position(specialisation, title, source) VALUES(?, ?, ?)',
-                            (specialisation_id, position, self.label_index))
+        self.cursor.execute('INSERT OR IGNORE INTO Position(specialisation, title, source, link) VALUES(?, ?, ?, ?)',
+                            (specialisation_id, position, self.label_index, link))

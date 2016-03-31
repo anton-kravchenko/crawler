@@ -3,22 +3,30 @@ import sys
 
 
 class Source:
-    def __init__(self, label, root_url, search_key, use_key_as_param, root_el, child_el, load_all_pages):
+    def __init__(self, label, root_url, search_url, add_root_url_to_link, search_key, use_key_as_param,
+                 root_el, child_el, link_el, pos_amount_el, load_all_pages):
         self.label = label
         self.root_url = root_url
+        self.search_url = search_url
+        self.add_root_url_to_link = True
         self.search_key = search_key
         self.use_key_as_param = True
-        self.grep_query = SearchQuery(root_el, child_el)
+        self.grep_query = SearchQuery(root_el, child_el, link_el, pos_amount_el)
         self.load_all_pages = load_all_pages
 
         if str(use_key_as_param) == 'false':
             self.use_key_as_param = False
 
+        if str(add_root_url_to_link) == 'false':
+            self.add_root_url_to_link = False
+
 
 class SearchQuery:
-    def __init__(self, root_el, child_el):
+    def __init__(self, root_el, child_el, link_el, pos_amount_el):
         self.root_el = root_el
         self.child_el = child_el
+        self.link_el = link_el
+        self.pos_amount_el = pos_amount_el
 
 
 class SetUp:
@@ -63,7 +71,10 @@ class SetUp:
                 print 'INFO: db_name is not specified, using default: db_name=?' % self.db_name
 
             if db_settings['db_overwrite'] is not None:
-                self.db_overwrite = db_settings['db_overwrite']
+                if str(db_settings['db_overwrite']) == 'true':
+                    self.db_overwrite = True
+                else:
+                    self.db_overwrite = False
             else:
                 print 'INFO: overwrite_db is not specified, using default: overwrite_db=?' % self.db_name
         else:
@@ -76,10 +87,14 @@ class SetUp:
                 if source['include'] == 'true':
                     self.sources.append(Source(source['label'],
                                                source['root_url'],
+                                               source['search_url'],
+                                               source['add_root_url_to_link'],
                                                source['search_key'],
                                                source['use_key_as_param'],
                                                source['grep_query']['root_el'],
                                                source['grep_query']['child_el'],
+                                               source['grep_query']['link_el'],
+                                               source['grep_query']['pos_amount_el'],
                                                source['load_all_pages']))
         else:
             print 'ERROR: sources are note specified. Can\'t perform searching'

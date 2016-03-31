@@ -1,6 +1,7 @@
 import sqlite3
 import urllib
 from pyquery import PyQuery
+import re
 
 
 class AbstractPageHandler:
@@ -12,11 +13,15 @@ class AbstractPageHandler:
         self.label_index = -1
 
         self.root_url = source_set_up.root_url
+        self.search_url = source_set_up.search_url
+        self.add_root_url_to_link = source_set_up.add_root_url_to_link
         self.search_key = source_set_up.search_key
         self.use_key_as_param = source_set_up.use_key_as_param
 
         self.root_el = source_set_up.grep_query.root_el
         self.child_el = source_set_up.grep_query.child_el
+        self.link_el = source_set_up.grep_query.link_el
+        self.pos_amount_el = source_set_up.grep_query.pos_amount_el
 
         self.load_all_pages = source_set_up.load_all_pages
 
