@@ -2,6 +2,7 @@ import sqlite3
 import urllib
 from pyquery import PyQuery
 import re
+import math
 
 
 class AbstractPageHandler:
@@ -22,6 +23,8 @@ class AbstractPageHandler:
         self.child_el = source_set_up.grep_query.child_el
         self.link_el = source_set_up.grep_query.link_el
         self.pos_amount_el = source_set_up.grep_query.pos_amount_el
+        self.pages_holder_el = source_set_up.grep_query.pages_holder_el
+        self.next_page = source_set_up.grep_query.next_page
 
         self.load_all_pages = source_set_up.load_all_pages
 

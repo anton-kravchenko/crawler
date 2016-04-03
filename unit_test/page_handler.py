@@ -1,6 +1,5 @@
 from abstract_page_handler import *
 
-
 class PageHandler(AbstractPageHandler):
     def __init__(self, source_set_up, specialisations_handler, db_connect, cursor):
         AbstractPageHandler.__init__(self, source_set_up, specialisations_handler, db_connect, cursor)
@@ -25,27 +24,49 @@ class PageHandler(AbstractPageHandler):
                 param = urllib.pathname2url(specialisation)
                 url = (self.search_url+'%s' % param)
 
-            print 'Retrieving ', url
-            raw_page = urllib.urlopen(url)
-            document = PyQuery(raw_page.read())
-            document(self.root_el).each(
-                lambda i, item: self.store_position(specialisation, PyQuery(item).find(self.child_el).text(),
-                                                    PyQuery(item).find(self.child_el).find(self.link_el).attr('href')
-                                                    ))
+            while url is not None:
+                print 'Retrieving ', url
+                raw_page = urllib.urlopen(url)
+                document = PyQuery(raw_page.read())
+                document(self.root_el).each(
+                    lambda i, item: self.store_position(specialisation, PyQuery(item).find(self.child_el).text(),
+                                                        PyQuery(item).find(self.child_el).find(self.link_el).attr('href')
+                                                        ))
 
-            specialisation_id = self.cursor.execute('SELECT id FROM Specialisation WHERE name=? ',
-                                                    (specialisation,)).fetchone()[0]
+                specialisation_id = self.cursor.execute('SELECT id FROM Specialisation WHERE name=? ',
+                                                        (specialisation,)).fetchone()[0]
 
-            self.db_connect.commit()
-            self.cursor.execute('SELECT COUNT(*) FROM Position WHERE specialisation=? AND source=?',
-                                (specialisation_id, self.label_index))
+                self.db_connect.commit()
+                self.cursor.execute('SELECT COUNT(*) FROM Position WHERE specialisation=? AND source=?',
+                                    (specialisation_id, self.label_index))
 
-            print self.cursor.fetchone()[0], 'items retrieved for', specialisation
+                print self.cursor.fetchone()[0], 'items retrieved for', specialisation
 
-        self.cursor.execute('SELECT COUNT(*) FROM Position WHERE source=?',
-                                (self.label_index, ))
+                if self.load_all_pages is True:
+                    try:
+                        url = self.get_next_page_link(document).next()
+                    except StopIteration:
+                        url = None
+                else:
+                    url = None
+
+        self.cursor.execute('SELECT COUNT(*) FROM Position WHERE source=?', (self.label_index, ))
 
         print 'RESULTS FROM', self.label, ':', self.cursor.fetchone()[0], 'items retrieved\n'
+
+    def get_next_page_link(self, document):
+        next_page_url = None
+        links = document(self.pages_holder_el).find(self.next_page)
+        if len(links) > 0:
+            next_page_url = PyQuery(links[-1]).attr('href')
+            if next_page_url is None:
+                next_page_url = PyQuery(PyQuery(links[-1])).find('a').attr('href')
+
+        if self.add_root_url_to_link is True and next_page_url is not None:
+            next_page_url = self.root_url + next_page_url
+
+        if next_page_url is not None:
+            yield next_page_url
 
     def store_position(self, specialisation, position, link):
         if self.add_root_url_to_link is True and link is not None:

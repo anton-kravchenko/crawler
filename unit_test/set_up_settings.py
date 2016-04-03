@@ -4,15 +4,15 @@ import sys
 
 class Source:
     def __init__(self, label, root_url, search_url, add_root_url_to_link, search_key, use_key_as_param,
-                 root_el, child_el, link_el, pos_amount_el, load_all_pages):
+                 root_el, child_el, link_el, pos_amount_el, pages_holder_el, next_page, load_all_pages):
         self.label = label
         self.root_url = root_url
         self.search_url = search_url
         self.add_root_url_to_link = True
         self.search_key = search_key
         self.use_key_as_param = True
-        self.grep_query = SearchQuery(root_el, child_el, link_el, pos_amount_el)
-        self.load_all_pages = load_all_pages
+        self.grep_query = SearchQuery(root_el, child_el, link_el, pos_amount_el, pages_holder_el, next_page)
+        self.load_all_pages = True
 
         if str(use_key_as_param) == 'false':
             self.use_key_as_param = False
@@ -20,13 +20,18 @@ class Source:
         if str(add_root_url_to_link) == 'false':
             self.add_root_url_to_link = False
 
+        if str(load_all_pages) == 'false':
+            self.load_all_pages = False
+
 
 class SearchQuery:
-    def __init__(self, root_el, child_el, link_el, pos_amount_el):
+    def __init__(self, root_el, child_el, link_el, pos_amount_el, pages_holder_el, next_page):
         self.root_el = root_el
         self.child_el = child_el
         self.link_el = link_el
         self.pos_amount_el = pos_amount_el
+        self.pages_holder_el = pages_holder_el
+        self.next_page = next_page
 
 
 class SetUp:
@@ -95,6 +100,8 @@ class SetUp:
                                                source['grep_query']['child_el'],
                                                source['grep_query']['link_el'],
                                                source['grep_query']['pos_amount_el'],
+                                               source['grep_query']['pages_holder_el'],
+                                               source['grep_query']['next_page'],
                                                source['load_all_pages']))
         else:
             print 'ERROR: sources are note specified. Can\'t perform searching'
