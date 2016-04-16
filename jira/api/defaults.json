@@ -1,0 +1,16 @@
+{
+    "port": 3110,
+    "security": {
+        "password_salt": "",
+        "session_secret": "123"
+    },
+    "frontend" : {
+        "host" : "http://localhost:3333"
+    },
+    "backend" : {
+        "host" : "http://localhost:3110"
+    }
+
+}
+
+

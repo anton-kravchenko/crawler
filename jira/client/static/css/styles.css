@@ -1,0 +1,251 @@
+* {
+	margin: 0px;
+	padding : 0px;
+	background-repeat: no-repeat;
+}
+
+button {
+    cursor: pointer;
+}
+
+textarea {
+    resize: none;
+}
+
+.landing_page_container {
+    position: absolute;
+    width: 300px;
+    height: 320px;
+    top: 50%;
+    left: 50%;
+    margin-left: -150px;
+    margin-top: -165px;
+}
+
+.note_notes_label {
+    text-align: center;
+    font-size: 21px;
+    margin-bottom: 5px;
+}
+
+.node_notes_logo {
+    font-size: 51px;
+    color: rgb(226, 117, 49);
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.signInButton,
+.signUpButton {
+    width: 49%;
+}
+button#logIN,
+button#landing_register {
+    width: 100%;
+}
+
+.customers_container {
+    width: 1000px;
+    margin: 0 auto;
+    margin-top: 51px;
+}
+
+.issues_container {
+    float: left;
+    width: 300px;
+    min-height: 800px;
+    overflow-y: auto;
+}
+
+.update_note_controls {
+    display: none;
+}
+
+.issue_detailed_container {
+    float: left;
+    min-height: 800px;
+    background: #8C8C8C;
+    width: 700px;
+}
+
+.updating_spinner {
+    display: none;
+}
+
+.message_length_indicator {
+    width: 0;
+    height: 5px;
+    background: rebeccapurple;
+}
+
+.submit_controls {
+    margin-left: 61%;
+}
+
+.three-quarters-loader:not(:required) {
+    -moz-animation: three-quarters-loader 1250ms infinite linear;
+    -webkit-animation: three-quarters-loader 1250ms infinite linear;
+    animation: three-quarters-loader 1250ms infinite linear;
+    border: 3px solid #38e;
+    border-right-color: transparent;
+    border-radius: 16px;
+    box-sizing: border-box;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    text-indent: -9999px;
+    width: 20px;
+    height: 20px;
+}
+
+.popup_close_button {
+    font-size: 26px;
+    background-size: contain;
+    position: absolute;
+    margin-left: 561px;
+    color : rgb(111, 111, 111);
+    margin-top: -31px;
+    cursor: pointer;
+}
+
+.popup_close_button:hover {
+    color: white;
+    transform : scale(1.1);
+}
+
+.popup_header {
+    text-transform: uppercase;
+    color: hsl(0, 0%, 28%);
+    font-size: 18px;
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 17px;
+    font-weight: bold;
+}
+
+label.col-sm-7.control-label.customer_data_label {
+    text-align: left;
+}
+
+button.btn.btn-success.add_new_project {
+    margin-bottom: 20px;
+}
+
+.dropdown li>span {
+    text-align: center;
+    display: block;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    cursor: pointer;
+}
+
+.dropdown li>span:hover {
+    background: #222222;
+    color: white;
+}
+
+span#current_project_mark {
+    text-align: center;
+    display: block;
+    font-weight: bold;
+    padding: 0;
+    cursor: default;
+}
+
+span#current_project_mark:hover{
+    color: black;
+    background-color: white;
+    cursor: default;
+}
+
+.custom_drop_down {
+    margin-left: 14px;
+    min-width: 150px;
+}
+
+.custom_drop_down > li {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    display: block;
+}
+
+.custom_drop_down>li:hover {
+    background: black;
+    color: white;
+}
+.custom_drop_down>li.active {
+    background: #464545;
+    color: white;
+}
+
+.status_open,
+.status_closed,
+.priority_low,
+.priority_normal,
+.priority_important,
+.priority_critical,
+.type_feature,
+.type_bug {
+    padding: 0 8px;
+    font-size: 20px;
+}
+
+.status_closed,
+.type_feature,
+.priority_low {
+    color: #00D000;    
+}
+
+.priority_normal {
+    color: #0062FF;
+}
+
+.priority_important { 
+    color : rgb(255, 51, 0); 
+}
+
+.priority_critical {
+    color : red;
+}
+
+.type_bug {
+    color: rebeccapurple;
+}
+
+.status_open {
+    color : #3B73CC;
+}
+
+.status_title,
+.priotiry_title,
+.type_title {
+    float: right;
+    text-align: left;
+    width: 72%;
+    font-size: 16px;
+    margin-top: 2px;
+}
+
+.issue_item {
+    height: 60px;
+    cursor: pointer;
+    border-bottom: 1px solid grey;
+    width: 94%;
+    margin: 0 auto;
+}
+
+.issue_id {
+    padding-top: 10px;
+    margin-left: 10px;
+    color: #3B7FC4
+}
+
+.issue_title {
+    margin-top: 2px;
+    margin-left: 10px;
+    overflow: hidden;
+    width: 90%;
+    color: #3B7FC4
+}

@@ -1,0 +1,72 @@
+<div class="popup_close_button glyphicon glyphicon-remove"/>
+<div class="popup_header">Add new customer</div>
+  <form class="form-horizontal" role="form">
+    <div class="form-group">
+      <label class="col-sm-4 control-label">First Name:</label>
+      <div class="col-sm-7">
+        <input class="form-control" id="firstName" type="text" >
+        <span class="help-block first_name_error_message"></span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-4 control-label">Last Name:</label>
+      <div class="col-sm-7">
+        <input class="form-control" id="lastName" type="text" >
+        <span class="help-block last_name_error_message"></span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-4 control-label">Date of Birth:</label>
+      <div class="col-sm-7">
+        <input class="form-control" id="dateOfBirth" type="date" name="bday">
+      </div>
+    </div>
+
+    <div class="form-group form-inline" role="form">
+      <label class="col-sm-4 control-label">Mobile Phone:</label>
+      <div class="col-sm-7">
+        <input class="form-control" id="mobilePhone1" pattern="[0-9]{3}" maxlength="3"><span> - </span>
+        <input class="form-control" id="mobilePhone2" pattern="[0-9]{3}" maxlength="3"><span> - </span>
+        <input class="form-control" id="mobilePhone3" pattern="[0-9]{2}" maxlength="2"><span> - </span>
+        <input class="form-control" id="mobilePhone4" pattern="[0-9]{2}" maxlength="2">
+        <span class="help-block mobile_phone_error_message"></span>
+      </div>
+    </div>
+
+    <div class="form-group form-inline" role="form">
+      <label class="col-sm-4 control-label">Work Phone:</label>
+      <div class="col-sm-7">
+        <input class="form-control" id="workPhone1" pattern="[0-9]{3}" maxlength="3"><span> - </span>
+        <input class="form-control" id="workPhone2" pattern="[0-9]{3}" maxlength="3"><span> - </span>
+        <input class="form-control" id="workPhone3" pattern="[0-9]{2}" maxlength="2"><span> - </span>
+        <input class="form-control" id="workPhone4" pattern="[0-9]{2}" maxlength="2">
+        <span class="help-block work_phone_error_message"></span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-4 control-label">Company Name:</label>
+      <div class="col-sm-7">
+        <input class="form-control" id="companyName" type="text" >
+        <span class="help-block work_phone_error_message"></span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-4 control-label">Skype:</label>
+      <div class="col-sm-7">
+        <input class="form-control" id="skype" type="text" >
+        <span class="help-block skype_error_message"></span>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="bbm-modal__bottombar">
+  <div class="delete_popup_buttons">
+     <button type="button" class="btn btn-success submit_new_customer">Submit <span class="glyphicon glyphicon-send"/></button>
+      <button type="button" class="btn btn-danger cancel_new_customer">Cancel  <span class="glyphicon glyphicon-remove"/></button>
+  </div>
+</div>
