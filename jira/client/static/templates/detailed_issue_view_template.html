@@ -1,0 +1,66 @@
+<div class="issue_container">
+	<div class="issue_detailed">
+		<div class="issue_id_priority_container">
+			<div class="task_id_and_task_controls">
+				<div class="detailed_issue_id"><%= task_id %>
+					<div class="detailed_issue_priority_icon">
+						<% if ('low' == priority) { %>
+						    <span class="glyphicon glyphicon-arrow-down priority_<%= priority %>"></span>
+						<% } %>
+
+						<% if ('normal' == priority) { %>
+						    <span class="glyphicon glyphicon-chevron-up priority_<%= priority %>"></span>
+						<% } %>
+
+						<% if ('important' == priority) { %>
+						    <span class="glyphicon glyphicon-arrow-up priority_<%= priority %>"></span>
+						<% } %>
+
+						<% if ('critical' == priority) { %>
+						    <span class="glyphicon glyphicon-fire priority_<%= priority %>"></span>
+						<% } %>
+					</div>
+				</div>
+				<div class="issue_controls">
+					<div class="btn-group">
+					  <button id="update_issue" type="button" class="btn btn-default">Update</button>
+					  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					    <span class="caret"></span>
+					    <span class="sr-only">Toggle Dropdown</span>
+					  </button>
+					  <ul class="dropdown-menu dropdown">
+					  	<li>
+						    <span id="delete_issue">Delete<span>
+				    	</li>
+					  </ul>
+					</div>
+				</div>
+			
+		</div>
+		
+		<div class="detailed_issue_title"><%= title %></div>
+
+		<div class="issue_details">
+			<div class="issue_details_label">
+				Details <span class="underline_span"/>
+			</div>
+			<div class="issue_type_container">
+				<div class="issue_type_label">Type:</div>
+				<div class="issue_type"><%= type %></div>
+			</div>
+
+			<div class="issue_status_container">
+				<div class="issue_status_label">Status:</div>
+				<div class="issue_status"><%= status %></div>
+			</div>
+
+		</div>
+
+
+		<div class="issue_description_container">
+			<div class="issue_description_label">Description:</div>
+			<div class="issue_description"><%= description %></div>
+		</div>
+
+	</div>
+</div>

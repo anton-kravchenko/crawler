@@ -12,10 +12,9 @@ define([
 			
 			this.each(function(project){
                 var tasks = project.get('tasks');
-                for (var i = 0; i < tasks.length; i++){
-
-                    tasksList.push(tasks[i]);
-                }
+                tasks.each(function(task){
+                    tasksList.push(task);
+                });
             });
 
             return tasksList;
@@ -23,7 +22,7 @@ define([
 		getModelById: function(task_id, project_id){
 			var allTasks = this.getAllTasks();
 			return allTasks.filter(function(task){
-				return ( (task._id == task_id) &&  (task.project_id == project_id))
+				return ( (task.get('_id') == task_id) &&  (task.get('project_id') == project_id))
 			});
 		},
 		getProjectById: function(project_id){

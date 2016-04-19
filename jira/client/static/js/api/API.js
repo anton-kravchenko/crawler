@@ -44,6 +44,11 @@ define(['jquery', 'config'], function ($, config) {
 			sendXHR(url, 'post', data, callback, errorCallback);
 		},
 
+		updateTask : function(data, callback, errorCallback){
+			var url = this.entry_point + '/update_task';
+			sendXHR(url, 'post', data, callback, errorCallback);
+		},
+
 		getProjects : function(callback, errorCallback){
 			var url = this.entry_point + '/get_projects';
 			sendXHR(url, 'get', null, callback, errorCallback);

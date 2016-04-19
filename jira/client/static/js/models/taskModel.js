@@ -21,7 +21,7 @@ define([
 		},
 		updateTask : function(callback, errorCallback){
 			var data = this.attributes;
-			API.updateTask(this.get('_id'), data, callback, errorCallback);
+			API.updateTask(data, callback, errorCallback);
 		},
 		createTask: function(callback, errorCallback){
 			this.set('date', new Date().toString());

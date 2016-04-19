@@ -7,13 +7,16 @@ define([
     'newProjectPopup',
     'newTaskPopup',
     'projecstCollection',
+    'tasksCollection',
     'projectModel',
     'taskModel'
-], function ($, _, Backbone, TemplateHandler, API, NewProjectPopup, NewTaskPopup, ProjecstCollection, ProjectModel, TaskModel) {
+], function ($, _, Backbone, TemplateHandler, API, NewProjectPopup, NewTaskPopup, ProjecstCollection, TasksCollection, ProjectModel, TaskModel) {
 
     var LandingScreen = Backbone.View.extend({
 
 		el: '#app',
+
+        detailedIssueContainer : '.issue_detailed_container',
 
 		signInUpcontainer : '.signInUpContainer',
 
@@ -23,7 +26,9 @@ define([
 
         issue_item_template : TemplateHandler.issue_item_template,
 
-        noteTemplate : TemplateHandler.customer_template,
+        detailed_issue_view_template : TemplateHandler.detailed_issue_view_template,
+
+        projects_dropdown_item : TemplateHandler.projects_dropdown_item,
 
 		events: {
             'click .submit_new_note': 'submitCustomer',
@@ -31,10 +36,11 @@ define([
             'click .add_new_customer' : 'showCreateTaskPopup'
 		},
         
-		maxNoteLength :  255,
+		maxTitleLength : 40,
 
 		initialize: function () {
             this.projects = ProjecstCollection;
+
 		},
         showCreateTaskPopup: function(model){
             this.popup = new NewTaskPopup(true, this.customers, null);
@@ -51,60 +57,86 @@ define([
             
                 var project = projectsData[i];
                 var projectName = projectsData[i].name;
+                var tasks = new TasksCollection();
 
                 for (var j=0; j < project.tasks.length; j++){
                     project.tasks[j].task_id = projectName + ' - ' + (j + 1);
+                    tasks.add(new TaskModel(project.tasks[j]));
                 }
 
+                project.tasks = tasks;
                 this.projects.add(project);
             }
 
             this.fillIssuesContainer();
+            this.initializeProjectSelectControl();
+        },
+        initializeProjectSelectControl:function(){
+            var self = this;
 
-            // for(i in projects){
+            this.projects.each(function(item){
+                $('.projects_dropdown').append(self.projects_dropdown_item({
+                    name : item.get('name'),
+                    id : item.get('_id')
+                }));
+            });
 
-            //     $('.customers_container').append(TemplateHandler.customer_template(this.customers.at(i).toJSON()));
+            $('.project_item').on('click', function(e){
+                $('.project_item').removeClass('active');
+                $(this).addClass('active');
 
-            //     (function(customerEl, model){
-            //         $(customerEl).find('.update_customer').on('click', function(){
-            //             self.showEditCustPopup(model, self.customers);
-            //         });
-            //         $(customerEl).find('.delete_customer').on('click', function(){
+                self.filterIssuesByProject($(this).attr('project_id'));
+            });
+        },
+        filterIssuesByProject: function(project_id){
+            if(!project_id) {
+                $('.issue_item').show();
+                return;
+            }
 
-            //              API.deleteCustomer(model.get('_id'), function(response){
-            //                     $(customerEl).fadeOut(function(){
-            //                         $(customerEl).remove();
-            //                     })
-            //                 },
-            //                 function(error){
-            //                     $(note_text_el).parent().find('.updating_spinner').css('display', 'none');
-            //                 }
-            //             );
-            //         });
+            $( ".issue_item[project_id!='" + project_id + "']" ).hide();
+            $( ".issue_item[project_id='" + project_id + "']" ).show();
+        },
+        showDetailedView: function(model){
+            var self = this;
+            $(this.detailedIssueContainer).html(this.detailed_issue_view_template({
+                task_id     : model.get('task_id'),
+                title       : model.get('title'),
+                description : model.get('description'),
+                type        : model.get('type'),
+                priority    : model.get('priority').toLowerCase(),
+                status      : model.get('status')
+            }));
 
-            //     })($('.customer_container').last(), this.customers.at(i));
+            $('#update_issue').off('click');
+            $('#update_issue').on('click', function(e){
+                self.showEditTaskPopup(model);
+            });
 
-            // }
         },
         fillIssuesContainer: function(){
             var tasksList = this.projects.getAllTasks();
             var self = this;
 
             for (var i=0; i < tasksList.length; i++){
+                var title = tasksList[i].get('title');
+                if (this.maxTitleLength < title.length){
+                    title = title.substr(0, this.maxTitleLength -3);
+                    title += '...'
+                }
                 $('.issues_container').append(this.issue_item_template({
-                    task_id : tasksList[i].task_id,
-                    title : tasksList[i].title
+                    task_id : tasksList[i].get('task_id'),
+                    title : title,
+                    priority : tasksList[i].get('priority').toLowerCase(),
+                    project_id : tasksList[i].get('project_id')
                 }));
 
                 (function(id, project_id){
                     $('.issue_item').last().on('click', function(){
                         var modelData = self.projects.getModelById(id, project_id);
-                        if(modelData.length > 0){
-                            var taskModel = new TaskModel(modelData[0]);
-                            self.showEditTaskPopup(taskModel);
-                        }
+                        self.showDetailedView(modelData[0]);
                     });
-                })(tasksList[i]._id, tasksList[i].project_id);
+                })(tasksList[i].get('_id'), tasksList[i].get('project_id'));
             }
 
             // var musketeers = friends.where({job: "Musketeer"});

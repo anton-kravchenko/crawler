@@ -209,51 +209,31 @@ API.prototype.createTask = function(user_id, project_id, title, description, typ
 };
 
 
-API.prototype.getAllCustomers = function(user_id, callback) {
+
+API.prototype.updateTask = function(user_id, _id, title, description, type, status, priority, callback) {
     var self = this;
 
     _requireAuthorization(user_id, callback, function(){
-        self.model.Customers.find( {'_creator' : user_id}, function(err, customers){
-            if (customers) {
-                callback(undefined, { customersCount : customers.length, customers : customers });
-            } else {
-                var error = errors.create('cant_get_cusomers_list', 'Get all customers error.', {
-                    code: 403
-                });
-                console.log(error);
-                callback(error);
-            }
-        });
-    });
+        self.model.Tasks.findById( _id, function (err, task) {
+            if (!err && task) {
+                task.title 		  = title;
+                task.description  = description;
+                task.type 		  = type;
+                task.status       = status;
+                task.priority 	  = priority
 
-};
-
-API.prototype.updateCustomer = function(user_id, customer_id, firstName, lastName, dateOfBirth, mobilePhone, workPhone, companyName, skype, callback) {
-    var self = this;
-
-    _requireAuthorization(user_id, callback, function(){
-        self.model.Customers.findOne({ _creator : user_id, _id: customer_id}, function (err, user) {
-            if (!err && user) {
-                user.name.first = firstName;
-                user.name.last = lastName;
-                user.dateOfBirth = new Date(dateOfBirth);
-                user.phone.mobile = mobilePhone;
-                user.phone.work = workPhone;
-                user.companyName = companyName;
-                user.skype = skype;
-
-                user.save(function (err, user) {
+                task.save(function (err, user) {
                     if (err) {
-                        var error = errors.create('incorrect_customer_data', 'Customer create error', {
+                        var error = errors.create('incorrect_task_data', 'Update task error', {
                             code: 403
                         });
                         callback(error);
                     } else {
-                       callback(undefined, user);
+                       callback(undefined, task);
                     }
                 });
             } else {
-                var error = errors.create('cant_find_and_update_customer', 'Update customer error.', {
+                var error = errors.create('cant_find_and_update_taskr', 'Update task error.', {
                     code: 403
                 });
                 console.log(error);
@@ -261,24 +241,6 @@ API.prototype.updateCustomer = function(user_id, customer_id, firstName, lastNam
             }
 
             
-        });
-    });
-};
-
-API.prototype.deleteCustomer = function(user_id, customer_id, callback) {
-    var self = this;
-
-    _requireAuthorization(user_id, callback, function(){
-        self.model.Customers.findOneAndRemove({'_id' : customer_id}, function (err, result){
-            if (!err) {
-                callback(undefined, { status: 'ok' });
-            } else {
-                var error = errors.create('cant_delete_customer', 'Remove customer error.', {
-                    code: 403
-                });
-                console.log(error);
-                callback(error);
-            }
         });
     });
 };

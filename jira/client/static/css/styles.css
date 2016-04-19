@@ -47,7 +47,7 @@ button#landing_register {
 }
 
 .customers_container {
-    width: 1000px;
+    width: 1180px;
     margin: 0 auto;
     margin-top: 51px;
 }
@@ -55,7 +55,7 @@ button#landing_register {
 .issues_container {
     float: left;
     width: 300px;
-    min-height: 800px;
+    max-height: 100vh;
     overflow-y: auto;
 }
 
@@ -66,7 +66,6 @@ button#landing_register {
 .issue_detailed_container {
     float: left;
     min-height: 800px;
-    background: #8C8C8C;
     width: 700px;
 }
 
@@ -239,7 +238,8 @@ span#current_project_mark:hover{
 .issue_id {
     padding-top: 10px;
     margin-left: 10px;
-    color: #3B7FC4
+    color: #3B7FC4;
+    float: left;
 }
 
 .issue_title {
@@ -248,4 +248,102 @@ span#current_project_mark:hover{
     overflow: hidden;
     width: 90%;
     color: #3B7FC4
+}
+
+.issue_priority_icon {
+    float: right;
+    padding-top: 5px;
+}
+
+.issue_container{
+    min-width: 300px;
+    margin: 0 auto;
+}
+
+
+.issue_details_label {
+    line-height: 0.3;
+    margin-top: 15px;
+}
+
+.underline_span {
+    width: 100%;
+    border: 1px solid #b6b4b4;
+    display: inline-block;
+}
+
+.issue_detailed {
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 35px;
+}
+
+.issue_details_label,
+.issue_description_label{
+    font-size: 18px;
+    font-weight: bold;    
+}
+
+
+.issue_type_label,
+.issue_status_label{
+    float : left;   
+    width: 50%
+}
+
+.issue_type,
+.issue_status {
+    float: right;
+    width: 50%
+}
+
+.issue_status_container,
+.issue_type_container {
+    width: 50%;
+    height: 30px;
+}
+
+.issue_type_container {
+    margin-top: 11px;
+}
+
+.issue_description_container {
+    padding-top: 20px;
+}
+
+.detailed_issue_id {
+    font-size: 26px;
+    color: #1673C7;
+    float: left;
+}
+
+.detailed_issue_title {
+    margin-top: 7px;
+    font-size: 26px;
+}
+
+.detailed_issue_title {
+    margin-top: 2px;
+    font-size: 26px;
+    margin-bottom: 31px;
+    clear: both;
+}
+
+.issue_controls {
+    float: right;
+}
+
+span#delete_issue {
+    text-align: left;
+    padding-left: 12px;
+    padding-top: 1px;
+}
+
+.detailed_issue_priority_icon {
+    float: right;
+}
+
+.issue_description {
+    font-size: 17px;
+    margin-top: 5px;
 }

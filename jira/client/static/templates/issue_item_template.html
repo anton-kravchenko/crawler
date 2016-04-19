@@ -1,4 +1,26 @@
-<div class="issue_item">
-	<div class="issue_id"><%= task_id %></div>
+<div class="issue_item" project_id="<%= project_id %>">
+	<div class="issue_id_priority_container">
+		<div class="issue_id"><%= task_id %></div>
+		<div class="issue_priority_icon">
+			<% if ('low' == priority) { %>
+			    <span class="glyphicon glyphicon-arrow-down priority_<%= priority %>"></span>
+			<% } %>
+
+			<% if ('normal' == priority) { %>
+			    <span class="glyphicon glyphicon-chevron-up priority_<%= priority %>"></span>
+			<% } %>
+
+			<% if ('important' == priority) { %>
+			    <span class="glyphicon glyphicon-arrow-up priority_<%= priority %>"></span>
+			<% } %>
+
+			<% if ('critical' == priority) { %>
+			    <span class="glyphicon glyphicon-fire priority_<%= priority %>"></span>
+			<% } %>
+		</div>
+	</div>
+	
 	<div class="issue_title"><%= title %></div>
+	
 </div>
+

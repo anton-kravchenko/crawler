@@ -16,16 +16,16 @@ define([
         submitEl: '.bbm-button',
          
         events: {
-            'click .cancel' : 'closePopup',
-            'click .popup_close_button' : 'closePopup',
             'click .submit_new_task' : 'submitNewTask',
             'click .update_task' : 'updateTask',
-            'click .cancel_new_task' : 'closePopup',
+            'click .cancel_new_task' : 'cancel',
+            'click .popup_close_button' : 'cancel',
         },
         closePopup : function () {
             this.destroy();
         },
         cancel: function(){
+            this.model.set(this.backUpModel.attributes);
             this.destroy();
         },
 
@@ -40,7 +40,6 @@ define([
         },
         updateTask: function(){
             var self = this;
-            this.grepData();
             this.model.updateTask(function(task){
                 console.log(task);
                 self.closePopup();
@@ -48,23 +47,6 @@ define([
                 console.log(err);
             });
             // $('.customers_container').trigger('updateView');
-        },
-        initFormData: function(){
-            // $('#firstName').val(this.model.get('firstName'));
-            // $('#lastName').val(this.model.get('lastName'));
-            // $('#companyName').val(this.model.get('companyName'));
-            // $('#skype').val(this.model.get('skype'));
-
-
-        },
-        grepData: function(){
-            this.model.set({    
-                firstName:    $('#firstName').val(),
-                lastName:     $('#lastName').val(),
-                dateOfBirth:  $('#dateOfBirth').val(),
-                companyName:  $('#companyName').val(),
-                skype:        $('#skype').val()
-            });
         },
         initialize: function (createNewtask, model) {
             this.projects = ProjecstCollection;
@@ -75,6 +57,7 @@ define([
             } else {
                 this.model = model;
             }
+            this.initBackUpModel(this.model);
         },
         initInputs: function(){
             var self = this;
@@ -84,7 +67,7 @@ define([
             this.initPrioritySelector();
             this.initTypeSelector();
             this.initStatusSelector();
-            
+            this.initBackUpModel();
         },
         initHeader: function(){
             if (!this.createNewtask){
@@ -132,6 +115,8 @@ define([
                         if(projectName == $(items[i]).text()){
                             $('.project_select>li:nth-child(' + index + ')').addClass('active');
                             $('.project_select').parent().parent().find('button').text(projectName);
+
+                            $('.project_select_dropdown').attr('data-toggle', '');
                             break;
                         }
                     }
@@ -216,12 +201,14 @@ define([
                 $('.status_selectors>li').last().addClass('active');
             }
         },
+        initBackUpModel: function(model){
+            this.backUpModel = new TaskModel(this.model.attributes);
+        },
         onShow: function(){
             if(!this.createNewtask) {
-                $('.submit_new_customer').addClass('update_customer');
-                $('.submit_new_customer').text('Update');
-                $('.submit_new_customer').removeClass('submit_new_customer');
-                this.initFormData();
+                $('.submit_new_task').addClass('update_task');
+                $('.submit_new_task').text('Update');
+                $('.submit_new_task').removeClass('submit_new_task');
             }
             this.initInputs();
         }

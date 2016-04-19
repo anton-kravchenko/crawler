@@ -4,7 +4,7 @@ var bodyParser = require('body-parser');
 var bunyan = require('bunyan');
 var nconf = require('nconf');
 var cors = require('express-cors');
-var cookieParser = require('cookie-parser')
+var cookieParser = require('cookie-parser');
 
 var package_json = require('./package.json');
 
@@ -126,34 +126,24 @@ init_api(nconf, log, function (error, api) {
         call: [ api.getAllProjects, 'session:user_id']
     });
 
-    router.post('/update_customer/:customer_id', {
+    router.post('/update_task/', {
         parameters: {
-            customer_id : router.Integer,
-            firstName: 	  router.String,
-            lastName:     router.String,
-            dateOfBirth:  router.String,
-            companyName:  router.String,
-            mobilePhone:  router.String,
-            workPhone: 	  router.String,
-            skype: 	 	  router.String,
+            _id  : router.String,
+            title    : router.String,
+            description : router.String,
+            type     : router.String,
+            status   : router.String,
+            priority : router.String
         },
-        call: [ api.updateCustomer, 'session:user_id',
-                                    'customer_id', 
-        							'firstName', 
-        							'lastName', 
-        							'dateOfBirth', 
-        							'mobilePhone',
-                                    'workPhone',
-                                    'companyName', 
-        							'skype']
+        call: [ api.updateTask, 'session:user_id',
+                                '_id',
+                                'title',
+                                'description',
+                                'type',
+                                'status',
+                                'priority']
     });
 
-    router.delete('/delete_customer/:customer_id', {
-        parameters: {
-            customer_id : router.Integer,
-        },
-        call: [ api.deleteCustomer, 'session:user_id', 'customer_id']
-    });
 
 	app.listen(nconf.get('port'), function () {
 	    console.log('Listening %s at %d', package_json['name'], nconf.get('port'));
